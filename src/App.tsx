@@ -108,6 +108,7 @@ function App() {
             <Button title={'Add new list'}
                     className={'addButton'}
                     callback={addTodolist}/>
+            <span>{React.version}</span>
         </div>
     );
 }
