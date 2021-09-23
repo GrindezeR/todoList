@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {TaskType, TodoList} from "./components/TodoList";
 import {v1} from 'uuid';
@@ -16,7 +16,7 @@ export type ObjTasksType = { [key: string]: TaskType[] }
 function App() {
     const todolistID1 = v1();
     const todolistID2 = v1();
-
+useEffect(() => {setTasks(tasks)}, )
     const [todolist, setTodolist] = useState<todolistsType[]>([
         {id: todolistID1, title: 'What to Learn', filter: 'all'},
         {id: todolistID2, title: 'What to Buy', filter: 'all'},
@@ -41,31 +41,24 @@ function App() {
     function removeTask(todolistID: string, id: string) {
         setTasks({...tasks, [todolistID]: tasks[todolistID].filter(t => t.id !== id)})
     }
-
     function addTask(todolistID: string, title: string) {
-        setTasks({...tasks, [todolistID]: [{id: v1(), title: title, isDone: false}, ...tasks[todolistID]]})
+        setTasks({...tasks, [todolistID]: [{id: v1(), title: title, isDone: false}, ...tasks[todolistID]]});
     }
-
     function changeStatus(todolistID: string, taskId: string, isDone: boolean) {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(t => t.id === taskId ? {...t, isDone: isDone} : t)})
     }
-
     function changeFilter(todolistID: string, value: FilterValuesType) {
         setTodolist(todolist.map(t => t.id === todolistID ? {...t, filter: value} : t))
     }
-
     const changeTaskTitle = (todolistID: string, taskId: string, newTitle: string) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(t => t.id === taskId ? {...t, title: newTitle} : t)})
     }
-
     const changeTitleTodolist = (todolistID: string, newTitle: string) => {
         setTodolist(todolist.map(tl => tl.id === todolistID ? {...tl, title: newTitle} : tl))
     }
-
     const deleteTodolist = (todolistID: string) => {
         setTodolist(todolist.filter(t => t.id !== todolistID))
     }
-
     const addTodolist = () => {
         const newTodolistTitle = prompt('Todolist Name');
         if (newTodolistTitle) {
@@ -76,7 +69,7 @@ function App() {
             alert('Error! Name required!');
         }
     }
-    console.log(React.version)
+
     return (
         <div className="App">
             {todolist.map(tl => {
