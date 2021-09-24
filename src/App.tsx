@@ -16,7 +16,7 @@ export type ObjTasksType = { [key: string]: TaskType[] }
 function App() {
     const todolistID1 = v1();
     const todolistID2 = v1();
-useEffect(() => {setTasks(tasks)}, )
+
     const [todolist, setTodolist] = useState<todolistsType[]>([
         {id: todolistID1, title: 'What to Learn', filter: 'all'},
         {id: todolistID2, title: 'What to Buy', filter: 'all'},
@@ -38,18 +38,44 @@ useEffect(() => {setTasks(tasks)}, )
         ]
     });
 
+    useEffect(() => {
+        let localTasksString = localStorage.getItem('tasks');
+        if (localTasksString) {
+            let newTasksValue = JSON.parse(localTasksString);
+            setTasks(newTasksValue);
+        }
+
+        let localTodolistsString = localStorage.getItem('todolists');
+        if (localTodolistsString) {
+            let newTodolistsValue = JSON.parse(localTodolistsString);
+            setTodolist(newTodolistsValue);
+        }
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }, [tasks])
+
+    useEffect(() => {
+        localStorage.setItem('todolists', JSON.stringify(todolist));
+    }, [todolist])
+
     function removeTask(todolistID: string, id: string) {
         setTasks({...tasks, [todolistID]: tasks[todolistID].filter(t => t.id !== id)})
     }
+
     function addTask(todolistID: string, title: string) {
         setTasks({...tasks, [todolistID]: [{id: v1(), title: title, isDone: false}, ...tasks[todolistID]]});
     }
+
     function changeStatus(todolistID: string, taskId: string, isDone: boolean) {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(t => t.id === taskId ? {...t, isDone: isDone} : t)})
     }
+
     function changeFilter(todolistID: string, value: FilterValuesType) {
         setTodolist(todolist.map(t => t.id === todolistID ? {...t, filter: value} : t))
     }
+
     const changeTaskTitle = (todolistID: string, taskId: string, newTitle: string) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(t => t.id === taskId ? {...t, title: newTitle} : t)})
     }
