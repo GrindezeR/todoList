@@ -1,0 +1,15 @@
+.input {
+    outline: none;
+}
+
+.error {
+    margin: 5px;
+    outline: none;
+    border: red 1px solid;
+}
+
+.errorMessage {
+    color: red;
+    margin: 10px;
+}
+
