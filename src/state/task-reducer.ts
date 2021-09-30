@@ -28,7 +28,7 @@ export const taskReducer = (state: ObjTasksType, action: actionsTypes): ObjTasks
             };
         case "ADD-TASK-LIST":
             return {...state, [action.id]: []};
-        case "RETURN-NEW-STATE-TASK":
+        case "NEW-STATE-TASK":
             return {...action.state};
         default:
             return state;
@@ -39,14 +39,14 @@ type actionsTypes = removeTaskACType
     | addTaskACType
     | changeStatusTaskACType
     | changeTitleTaskACType
-    | returnNewStateTasktACType
+    | newStateTasktACType
     | addTaskListACType
 
 type removeTaskACType = ReturnType<typeof removeTaskAC>;
 type addTaskACType = ReturnType<typeof addTaskAC>;
 type changeStatusTaskACType = ReturnType<typeof changeStatusTaskAC>;
 type changeTitleTaskACType = ReturnType<typeof changeTitleTaskAC>;
-type returnNewStateTasktACType = ReturnType<typeof returnNewStateTasktAC>;
+type newStateTasktACType = ReturnType<typeof newStateTasktAC>;
 type addTaskListACType = ReturnType<typeof addTaskListAC>;
 
 export const removeTaskAC = (todolistID: string, taskID: string) => {
@@ -65,8 +65,8 @@ export const changeTitleTaskAC = (todolistID: string, taskID: string, newTitle: 
     return {type: 'CHANGE-TITLE-TASK', todolistID, taskID, newTitle} as const
 }
 
-export const returnNewStateTasktAC = (state: ObjTasksType) => {
-    return {type: 'RETURN-NEW-STATE-TASK', state} as const
+export const newStateTasktAC = (state: ObjTasksType) => {
+    return {type: 'NEW-STATE-TASK', state} as const
 }
 
 export const addTaskListAC = (id: string) => {

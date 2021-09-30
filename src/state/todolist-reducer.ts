@@ -10,7 +10,7 @@ export const todolistReducer = (state: todolistsType[], action: actionTypes): to
             return [...state].map(tl => tl.id === action.id ? {...tl, title: action.title} : tl);
         case "CHANGE-FILTER-TODOLIST":
             return [...state].map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl);
-        case "RETURN-NEW-STATE-TODOLIST":
+        case "NEW-STATE-TODOLIST":
             return [...action.state];
         default:
             return state;
@@ -21,13 +21,13 @@ type actionTypes = deleteTodolistACType
     | addTodolistACType
     | changeTodolistACType
     | changeFilterTodolistACType
-    | returnNewStateACType
+    | newStateACType
 
 type deleteTodolistACType = ReturnType<typeof deleteTodolistAC>;
 type addTodolistACType = ReturnType<typeof addTodolistAC>;
 type changeTodolistACType = ReturnType<typeof changeTitleTodolistAC>;
 type changeFilterTodolistACType = ReturnType<typeof changeFilterTodolistAC>;
-type returnNewStateACType = ReturnType<typeof returnNewStateTodolistAC>;
+type newStateACType = ReturnType<typeof newStateTodolistAC>;
 
 export const deleteTodolistAC = (todolistID: string) => {
     return {type: 'REMOVE-TODOLIST', todolistID} as const
@@ -45,7 +45,7 @@ export const changeFilterTodolistAC = (filter: filterValuesType, id: string) => 
     return {type: 'CHANGE-FILTER-TODOLIST', filter, id} as const
 }
 
-export const returnNewStateTodolistAC = (state: todolistsType[]) => {
-    return {type: 'RETURN-NEW-STATE-TODOLIST', state} as const
+export const newStateTodolistAC = (state: todolistsType[]) => {
+    return {type: 'NEW-STATE-TODOLIST', state} as const
 }
 

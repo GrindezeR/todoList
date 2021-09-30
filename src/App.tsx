@@ -15,14 +15,14 @@ import {
     deleteTodolistAC,
     addTodolistAC,
     changeTitleTodolistAC,
-    changeFilterTodolistAC, returnNewStateTodolistAC
+    changeFilterTodolistAC, newStateTodolistAC
 } from "./state/todolist-reducer";
 import {
     addTaskAC, addTaskListAC,
     changeStatusTaskAC,
     changeTitleTaskAC,
     removeTaskAC,
-    returnNewStateTasktAC,
+    newStateTasktAC,
     taskReducer
 } from "./state/task-reducer";
 
@@ -70,21 +70,24 @@ function App() {
         let localTasksString = localStorage.getItem('tasks');
         if (localTasksString) {
             let newTasksValue = JSON.parse(localTasksString);
-            dispatchTasks(returnNewStateTasktAC(newTasksValue));
+            dispatchTasks(newStateTasktAC(newTasksValue));
         }
 
         let localTodolistsString = localStorage.getItem('todolists');
         if (localTodolistsString) {
             let newTodolistsValue = JSON.parse(localTodolistsString);
-            dispatchTodolist(returnNewStateTodolistAC(newTodolistsValue));
+            newTodolistsValue = [...newTodolistsValue].map(tl => ({...tl, filter: 'all'}));
+            dispatchTodolist(newStateTodolistAC(newTodolistsValue));
         }
-    }, [])
+    }, []);
+
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
-    }, [tasks])
+    }, [tasks]);
+
     useEffect(() => {
         localStorage.setItem('todolists', JSON.stringify(todolist));
-    }, [todolist])
+    }, [todolist]);
 
     const removeTask = (todolistID: string, id: string) => {
         dispatchTasks(removeTaskAC(todolistID, id));

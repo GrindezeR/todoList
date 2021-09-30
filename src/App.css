@@ -1,3 +1,7 @@
+.App {
+    font-family: "Comic Sans MS", sans-serif;
+}
+
 .todolistWrapper {
     padding: 15px;
     margin-bottom: 50px;
@@ -5,9 +9,5 @@
 
 .addTodolistWrapper {
     padding: 40px 0;
-}
-
-body {
-    /*background-color: #61dafb;*/
 }
 

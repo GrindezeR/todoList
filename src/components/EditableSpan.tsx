@@ -31,7 +31,7 @@ export function EditableSpan({title, callback}: editableSpan) {
             ?
             <TextField className={s.input}
                        size={"small"}
-                       variant={"standard"}
+                       variant={"outlined"}
                        value={inputValue}
                        onBlur={activateViewMode}
                        onChange={onChangeInputValue}
