@@ -1,5 +1,6 @@
-import {ObjTasksType, taskType} from "../App";
+import {ObjTasksType} from "../App";
 import {v1} from "uuid";
+import {addTodolistACType, deleteTodolistACType} from "./todolist-reducer";
 
 export const taskReducer = (state: ObjTasksType, action: actionsTypes): ObjTasksType => {
     switch (action.type) {
@@ -26,8 +27,12 @@ export const taskReducer = (state: ObjTasksType, action: actionsTypes): ObjTasks
                 [action.todolistID]: [...state[action.todolistID]
                     .map(t => t.id === action.taskID ? {...t, title: action.newTitle} : t)]
             };
-        case "ADD-TASK-LIST":
+        case "ADD-TODOLIST":
             return {...state, [action.id]: []};
+        case "REMOVE-TODOLIST":
+            let copyState = {...state};
+            delete copyState[action.todolistID]
+            return copyState;
         case "NEW-STATE-TASK":
             return {...action.state};
         default:
@@ -39,15 +44,15 @@ type actionsTypes = removeTaskACType
     | addTaskACType
     | changeStatusTaskACType
     | changeTitleTaskACType
-    | newStateTasktACType
-    | addTaskListACType
+    | newStateTasksACType
+    | addTodolistACType
+    | deleteTodolistACType
 
 type removeTaskACType = ReturnType<typeof removeTaskAC>;
 type addTaskACType = ReturnType<typeof addTaskAC>;
 type changeStatusTaskACType = ReturnType<typeof changeStatusTaskAC>;
 type changeTitleTaskACType = ReturnType<typeof changeTitleTaskAC>;
-type newStateTasktACType = ReturnType<typeof newStateTasktAC>;
-type addTaskListACType = ReturnType<typeof addTaskListAC>;
+type newStateTasksACType = ReturnType<typeof newStateTasktAC>;
 
 export const removeTaskAC = (todolistID: string, taskID: string) => {
     return {type: 'REMOVE-TASK', todolistID, taskID} as const
@@ -67,8 +72,4 @@ export const changeTitleTaskAC = (todolistID: string, taskID: string, newTitle: 
 
 export const newStateTasktAC = (state: ObjTasksType) => {
     return {type: 'NEW-STATE-TASK', state} as const
-}
-
-export const addTaskListAC = (id: string) => {
-    return {type: 'ADD-TASK-LIST', id} as const
 }

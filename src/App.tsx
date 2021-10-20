@@ -18,7 +18,7 @@ import {
     changeFilterTodolistAC, newStateTodolistAC
 } from "./state/todolist-reducer";
 import {
-    addTaskAC, addTaskListAC,
+    addTaskAC,
     changeStatusTaskAC,
     changeTitleTaskAC,
     removeTaskAC,
@@ -110,12 +110,14 @@ function App() {
         dispatchTodolist(changeTitleTodolistAC(newTitle, todolistID));
     }
     const deleteTodolist = (todolistID: string) => {
-        dispatchTodolist(deleteTodolistAC(todolistID));
+        const action = deleteTodolistAC(todolistID);
+        dispatchTodolist(action);
+        dispatchTasks(action);
     }
     const addTodolist = (title: string) => {
-        const newID = v1();
-        dispatchTodolist(addTodolistAC(title, newID));
-        dispatchTasks(addTaskListAC(newID));
+        const action = addTodolistAC(title)
+        dispatchTasks(action)
+        dispatchTodolist(action);
     }
 
     const todolistList = todolist.map(tl => {
