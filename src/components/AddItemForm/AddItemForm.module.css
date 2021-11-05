@@ -1,0 +1,18 @@
+.addItemWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+.input, .errorInput {
+    flex-grow: 1;
+}
+
+.errorInput {
+    border: 2px solid red;
+}

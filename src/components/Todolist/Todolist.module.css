@@ -1,0 +1,32 @@
+.wrapper {
+    min-width: 300px;
+}
+
+.tasksWrapper {
+    max-width: 400px;
+    word-break: break-all;
+    padding: 10px;
+}
+
+.btnWrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.deleteBtn {
+    margin: 0 5px;
+    border-radius: 50%;
+    border: 1px solid crimson;
+    color: crimson;
+}
+
+.title {
+    text-align: center;
+    margin: 0 5px;
+}
+
+.filterBtn {
+    text-transform: none;
+    font-family: Bahnschrift, sans-serif;
+    height: 20px;
+}

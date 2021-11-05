@@ -1,0 +1,12 @@
+.deleteBtn {
+    margin: 0 5px;
+    border-radius: 50%;
+    border: 1px solid crimson;
+    color: crimson;
+}
+
+.done {
+    text-decoration: line-through;
+    list-style: none;
+    opacity: 0.5;
+}

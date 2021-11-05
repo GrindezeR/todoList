@@ -1,0 +1,9 @@
+.input {
+    margin: 5px;
+    padding: 0;
+    max-width: 150px;
+}
+
+.task {
+    word-break: break-all;
+}
