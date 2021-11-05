@@ -11,7 +11,7 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
     const {title, callback} = props
 
     const [editMode, setEditMode] = useState(false);
-    const [inputValue, setInputValue] = useState<string>(title);
+    const [inputValue, setInputValue] = useState(title);
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value);
     const enableEditMode = () => {
@@ -21,10 +21,10 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
         const value = inputValue.trim();
         if (value !== '') {
             callback(value);
+        } else {
+            setInputValue(title); //If string = void, return latest value
         }
-        else {
-            setInputValue(title);
-        }
+        setInputValue(value.trim()) //Clear spaces after edit
         setEditMode(false);
     }
     const onKeyPressEdit = (e: KeyboardEvent<HTMLInputElement>) => {

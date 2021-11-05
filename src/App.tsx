@@ -26,6 +26,7 @@ import {AppRootStateType} from "./store/store";
 import {AddItemForm} from './components/AddItemForm/AddItemForm';
 import {Todolist} from './components/Todolist/Todolist';
 import s from './App.module.css';
+import {useMediaQuery} from "@mui/material";
 
 
 export type FiltersValueType = 'all' | 'active' | 'completed'
@@ -136,7 +137,7 @@ function App() {
                 <Grid className={s.addTodolistWrapper} container>
                     <AddItemForm title={'Add list'} callback={addTodolist}/>
                 </Grid>
-                <Grid container spacing={4}>
+                <Grid className={s.todoWrapper} container spacing={4}>
                     {todolistList}
                 </Grid>
             </Container>

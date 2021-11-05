@@ -20,3 +20,13 @@
 .addTodolistWrapper {
     margin: 40px 0;
 }
+
+@media (max-width: 1072px) {
+    .todoWrapper {
+        justify-content: center;
+    }
+
+    .addTodolistWrapper {
+        justify-content: center;
+    }
+}
