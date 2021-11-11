@@ -39,16 +39,16 @@ export type TaskType = {
 function App() {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        let todolistFromLS = localStorage.getItem('todolists');
-        if (todolistFromLS) {
-            dispatch(setTodolistFromLocalStorageAC(JSON.parse(todolistFromLS)));
-        }
-        let taskFromLS = localStorage.getItem('tasks');
-        if (taskFromLS) {
-            dispatch(setTasksFromLocalStorageAC(JSON.parse(taskFromLS)));
-        }
-    }, [dispatch])
+    // useEffect(() => {
+    //     let todolistFromLS = localStorage.getItem('todolists');
+    //     if (todolistFromLS) {
+    //         dispatch(setTodolistFromLocalStorageAC(JSON.parse(todolistFromLS)));
+    //     }
+    //     let taskFromLS = localStorage.getItem('tasks');
+    //     if (taskFromLS) {
+    //         dispatch(setTasksFromLocalStorageAC(JSON.parse(taskFromLS)));
+    //     }
+    // }, [dispatch])
 
     const todolists = useSelector<AppRootStateType, InitialTodolistStateType[]>(state => state.todolists);
     const tasks = useSelector<AppRootStateType, InitialTaskStateType>(state => state.tasks);
