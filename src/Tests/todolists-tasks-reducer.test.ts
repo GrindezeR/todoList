@@ -1,4 +1,4 @@
-import {addTodolistAC, deleteTodolistAC, todolistReducer} from "../state/todolist_reducer";
+import {addTodolistAC, deleteTodolistAC, setTodolistsAC, todolistReducer} from "../state/todolist_reducer";
 import {InitialTaskStateType, taskReducer} from "../state/task_reducer";
 import {InitialTodolistStateType} from "../state/todolist_reducer";
 import {TaskAPIStatuses} from "../API/todolist-api";
@@ -7,8 +7,9 @@ import {TaskAPIStatuses} from "../API/todolist-api";
 test('ids should be equals', () => {
     const startTasksState: InitialTaskStateType = {};
     const startTodolistsState: InitialTodolistStateType[] = [];
+    const newTodolist = {id: "todolistId3", title: 'new todolist', order: 1, addedDate: ''}
 
-    const action = addTodolistAC("new todolist");
+    const action = addTodolistAC(newTodolist);
 
     const endTasksState = taskReducer(startTasksState, action)
     const endTodolistsState = todolistReducer(startTodolistsState, action)
@@ -17,8 +18,8 @@ test('ids should be equals', () => {
     const idFromTasks = keys[0];
     const idFromTodolists = endTodolistsState[0].id;
 
-    expect(idFromTasks).toBe(action.todolistId);
-    expect(idFromTodolists).toBe(action.todolistId);
+    expect(idFromTasks).toBe(action.todolist.id);
+    expect(idFromTodolists).toBe(action.todolist.id);
 });
 
 test('property with todolistId should be deleted', () => {
@@ -106,3 +107,22 @@ test('property with todolistId should be deleted', () => {
     expect(keys.length).toBe(1);
     expect(endState["todolistId2"]).not.toBeDefined();
 });
+
+test('empty tasks arrays should be created after set todolists', () => {
+    const action = setTodolistsAC([
+        {id: "1", title: 'What to buy', order: 1, addedDate: ''},
+        {id: "2", title: 'What to Play', order: 0, addedDate: ''},
+    ]);
+    const endState = taskReducer({}, action);
+    const keys = Object.keys(endState)
+
+    expect(endState).toEqual({
+        ["1"]: [],
+        ["2"]: [],
+    });
+    expect(keys.length).toBe(2)
+    expect(endState["1"]).toStrictEqual([]);
+    expect(endState["2"]).toStrictEqual([]);
+    expect(endState["1"]).toBeDefined();
+    expect(endState["2"]).toBeDefined();
+})

@@ -19,7 +19,8 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
     }
     const disableEditMode = () => {
         const value = inputValue.trim();
-        if (value !== '') {
+        //Check if title is same
+        if (value !== '' && title !== value) {
             callback(value);
         } else {
             setInputValue(title); //If string = void, return latest value
@@ -43,6 +44,7 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
                            onBlur={disableEditMode}
                            onChange={inputChangeHandler}
                            onKeyPress={onKeyPressEdit}
+                           onFocus={e => e.currentTarget.select()}
                            autoFocus
 
                 />

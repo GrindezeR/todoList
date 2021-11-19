@@ -3,9 +3,10 @@ import {
     changeTodolistFilterAC,
     changeTodolistTitleAC, InitialTodolistStateType,
     deleteTodolistAC,
-    todolistReducer, FiltersValueType
+    todolistReducer, FiltersValueType, getTodolistsTC, setTodolistsAC
 } from '../state/todolist_reducer';
 import {v1} from 'uuid';
+import {useDispatch} from "react-redux";
 
 let todolistId1: string;
 let todolistId2: string;
@@ -29,13 +30,14 @@ test('correct todolist should be removed', () => {
 });
 
 test('correct todolist should be added', () => {
-    let newTodolistTitle = "New Todolist";
-    const endState = todolistReducer(startState, addTodolistAC(newTodolistTitle))
+    const newTodolistTitle = "New Todolist";
+    const newTodolist = {id: "todolistId3", title: newTodolistTitle, order: 1, addedDate: ''}
+    const endState = todolistReducer(startState, addTodolistAC(newTodolist))
 
     expect(endState.length).toBe(3);
-    expect(endState[2].title).toBe(newTodolistTitle);
-    expect(endState[2].filter).toBe("all");
-    expect(endState[2].id).toBeDefined();
+    expect(endState[0].title).toBe(newTodolistTitle);
+    expect(endState[0].filter).toBe("all");
+    expect(endState[0].id).toBeDefined();
 });
 
 test('correct todolist should change its name', () => {
@@ -55,5 +57,13 @@ test('correct filter of todolist should be changed', () => {
     expect(endState[0].filter).toBe("all");
     expect(endState[1].filter).toBe(newFilter);
 });
+
+test('todolists should be set to the state', () => {
+    const action = setTodolistsAC(startState);
+    const endState = todolistReducer([], action);
+
+    expect(endState.length).toBe(2);
+});
+
 
 

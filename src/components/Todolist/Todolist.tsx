@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import s from './Todolist.module.css';
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
@@ -8,6 +8,8 @@ import {DeleteForever} from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import {TaskAPIStatuses, TaskAPIType} from "../../API/todolist-api";
 import {FiltersValueType} from "../../state/todolist_reducer";
+import {useDispatch} from "react-redux";
+import {getTasksTC} from "../../state/task_reducer";
 
 type TodolistPropsType = {
     tasks: TaskAPIType[]
@@ -31,6 +33,12 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
         deleteTask, changeTaskStatus, addTask, changeTaskTitle,
         changeTodolistFilter, deleteTodolist, changeTodolistTitle,
     } = props
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getTasksTC(todolistId));
+    }, [dispatch, todolistId])
 
     let filteredTasks = tasks;
     if (filter === 'active') {

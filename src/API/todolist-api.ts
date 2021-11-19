@@ -25,26 +25,25 @@ export type TaskAPIType = {
     order: number
     addedDate: string
 }
+export type UpdateTaskModelAPIType = {
+    title: string
+    description: string
+    status: TaskAPIStatuses
+    priority: TaskAPIPriorities
+    startDate: string //2023-03-19T07:22Z
+    deadline: string
+}
 export type GetTasksAPIResponseType = {
     items: TaskAPIType[]
     totalCount: number
     error: string
 }
 export type CreateTaskAPIResponseType = {
-    resultCode: 0 | 1
+    resultCode: number
     messages: string[]
     data: {
         item: TaskAPIType
     }
-}
-export type UpdateTaskModelAPIType = {
-    title: string
-    description: string
-    completed: boolean
-    status: TaskAPIStatuses
-    priority: TaskAPIPriorities
-    startDate: string //2023-03-19T07:22Z
-    deadline: string //2023-03-19T07:22Z
 }
 export enum TaskAPIStatuses {
     New = 0,
@@ -69,6 +68,7 @@ const instance = axios.create({
 })
 
 export const todolistAPI = {
+    //Todolists
     getTodolists() {
         return instance.get<TodolistAPIType[]>(`todo-lists`)
     },
@@ -87,6 +87,7 @@ export const todolistAPI = {
         (`todo-lists/${todolistId}`, {title: newTitle})
     },
 
+    //Tasks
     getTasks(todolistId: string) {
         return instance.get<GetTasksAPIResponseType>(`/todo-lists/${todolistId}/tasks`)
     },
@@ -94,7 +95,7 @@ export const todolistAPI = {
         return instance.post<CreateTaskAPIResponseType, AxiosResponse<CreateTaskAPIResponseType>, { title: string }>
         (`/todo-lists/${todolistId}/tasks`, {title: title})
     },
-    deleteTask(todolistId: string, taskId: string){
+    deleteTask(todolistId: string, taskId: string) {
         return instance.delete<ResponseAPIType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
     },
     updateTask(todolistId: string, taskId: string, task: UpdateTaskModelAPIType) {

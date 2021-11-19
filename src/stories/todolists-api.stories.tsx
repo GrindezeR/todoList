@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {todolistAPI} from "../API/todolist-api";
+import {TaskAPIStatuses, todolistAPI} from "../API/todolist-api";
 
 export default {
     title: 'API'
@@ -80,13 +80,12 @@ export const UpdateTask = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
         todolistAPI.updateTask('5aa01351-47d8-4124-8cad-6c164bf2e5e1', 'fdaa3d32-4292-4696-8741-b5495bc4a079', {
-            completed: true,
             title: 'IT-KAMASUTRA',
             deadline: '2023-03-19T07:22Z',
             description: 'my task Postman',
             priority: 0,
             startDate: '2022-03-19T07:22Z',
-            status: 0
+            status: TaskAPIStatuses.Completed
         })
             .then(res => setState(res.data))
     }, [])

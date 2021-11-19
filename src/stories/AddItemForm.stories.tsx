@@ -1,4 +1,4 @@
-import AddItemForm from "./AddItemForm";
+import AddItemForm from "../components/AddItemForm/AddItemForm";
 import {ComponentStory, ComponentMeta} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
 
