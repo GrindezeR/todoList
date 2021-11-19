@@ -1,6 +1,7 @@
 import {ComponentMeta, ComponentStory} from "@storybook/react";
 import {Task} from "./Task";
 import {action} from "@storybook/addon-actions";
+import {TaskAPIStatuses} from "../../API/todolist-api";
 
 export default {
     title: 'Todolist/Tasks',
@@ -19,9 +20,25 @@ export const TaskStoryDone = Template.bind({});
 export const TaskStoryNotDone = Template.bind({});
 
 TaskStoryDone.args = {
-    task: {id: '1', title: 'HTML', isDone: true},
+    task: {
+        id: '1', title: 'HTML', status: TaskAPIStatuses.New, order: 0,
+        addedDate: '',
+        deadline: '',
+        startDate: '',
+        description: '',
+        priority: 2,
+        todoListId: 'todolistId1',
+    },
 }
 
 TaskStoryNotDone.args = {
-    task: {id: '2', title: 'React', isDone: false},
+    task: {
+        id: '1', title: 'React', status: TaskAPIStatuses.Completed, order: 0,
+        addedDate: '',
+        deadline: '',
+        startDate: '',
+        description: '',
+        priority: 2,
+        todoListId: 'todolistId1',
+    },
 }

@@ -9,7 +9,6 @@ import {store} from "./store/store";
 
 ReactDOM.render(
     <React.StrictMode>
-
         <Provider store={store}>
             <StyledEngineProvider injectFirst>
                 <App/>

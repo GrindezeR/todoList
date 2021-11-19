@@ -1,5 +1,4 @@
 import React, {useCallback} from "react";
-import {FiltersValueType, TaskType} from "../../App";
 import s from './Todolist.module.css';
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
@@ -7,9 +6,11 @@ import {Task} from "../Task/Task";
 import IconButton from "@mui/material/IconButton";
 import {DeleteForever} from "@mui/icons-material";
 import Button from "@mui/material/Button";
+import {TaskAPIStatuses, TaskAPIType} from "../../API/todolist-api";
+import {FiltersValueType} from "../../state/todolist_reducer";
 
 type TodolistPropsType = {
-    tasks: TaskType[]
+    tasks: TaskAPIType[]
     title: string
     filter: FiltersValueType
     todolistId: string
@@ -19,7 +20,7 @@ type TodolistPropsType = {
 
     addTask: (todolistId: string, title: string) => void
     changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
-    changeTaskStatus: (todolistId: string, taskId: string) => void
+    changeTaskStatus: (todolistId: string, taskId: string, status: TaskAPIStatuses) => void
     deleteTask: (todolistId: string, taskId: string) => void
 }
 
@@ -33,10 +34,10 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
 
     let filteredTasks = tasks;
     if (filter === 'active') {
-        filteredTasks = tasks.filter(t => !t.isDone);
+        filteredTasks = tasks.filter(t => t.status === TaskAPIStatuses.New);
     }
     if (filter === "completed") {
-        filteredTasks = tasks.filter(t => t.isDone);
+        filteredTasks = tasks.filter(t => t.status === TaskAPIStatuses.Completed);
     }
 
     const tasksList = filteredTasks.map(t => {
@@ -49,11 +50,6 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
                   deleteTask={deleteTask}/>
         );
     })
-
-    //Styles
-    const allStyle = filter === 'all' ? 'contained' : 'text';
-    const activeStyle = filter === 'active' ? 'contained' : 'text';
-    const completeStyle = filter === 'completed' ? 'contained' : 'text';
 
     //Callbacks
     const allFilterHandler = useCallback(() => {
@@ -79,6 +75,12 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     const addTaskCallback = useCallback((title: string) => {
         addTask(todolistId, title)
     }, [addTask, todolistId]);
+
+
+    //Styles
+    const allStyle = filter === 'all' ? 'contained' : 'text';
+    const activeStyle = filter === 'active' ? 'contained' : 'text';
+    const completeStyle = filter === 'completed' ? 'contained' : 'text';
 
     return (
         <div key={todolistId} className={s.wrapper}>
