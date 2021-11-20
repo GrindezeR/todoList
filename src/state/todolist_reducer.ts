@@ -3,16 +3,16 @@ import {Dispatch} from "redux";
 
 export type FiltersValueType = 'all' | 'active' | 'completed'
 
-export type InitialTodolistStateType = TodolistAPIType & {
+export type TodolistDomainStateType = TodolistAPIType & {
     filter: FiltersValueType
 }
 
-const initialState: InitialTodolistStateType[] = [
+const initialState: TodolistDomainStateType[] = [
     // {id: "todolistId1", title: 'What to buy', order: 1, filter: 'all', addedDate: ''},
     // {id: "todolistId2", title: 'What to Play', order: 0, filter: 'all', addedDate: ''},
 ]
 
-export const todolistReducer = (state = initialState, action: ActionsType): InitialTodolistStateType[] => {
+export const todolistReducer = (state = initialState, action: ActionsType): TodolistDomainStateType[] => {
     switch (action.type) {
         case "CHANGE-TODOLIST-FILTER":
             return state.map(tl => tl.id === action.todolistId ? {...tl, filter: action.filter} : tl);

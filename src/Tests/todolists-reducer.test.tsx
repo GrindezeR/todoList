@@ -1,7 +1,7 @@
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, InitialTodolistStateType,
+    changeTodolistTitleAC, TodolistDomainStateType,
     deleteTodolistAC,
     todolistReducer, FiltersValueType, getTodolistsTC, setTodolistsAC
 } from '../state/todolist_reducer';
@@ -10,7 +10,7 @@ import {useDispatch} from "react-redux";
 
 let todolistId1: string;
 let todolistId2: string;
-let startState: InitialTodolistStateType[];
+let startState: TodolistDomainStateType[];
 
 beforeEach(() => {
     todolistId1 = v1();

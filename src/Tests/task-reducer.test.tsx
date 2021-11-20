@@ -1,7 +1,7 @@
 import {
     addTaskAC,
     deleteTaskAC,
-    InitialTaskStateType,
+    TaskDomainStateType,
     setTasksAC,
     taskReducer, updateTaskAC
 } from "../state/task_reducer";
@@ -9,7 +9,7 @@ import {addTodolistAC, deleteTodolistAC} from "../state/todolist_reducer";
 import {TaskAPIStatuses} from "../API/todolist-api";
 import {v1} from "uuid";
 
-let startState: InitialTaskStateType
+let startState: TaskDomainStateType
 
 beforeEach(() => {
     startState = {

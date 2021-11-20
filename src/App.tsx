@@ -15,13 +15,13 @@ import {
     deleteTodolistTC,
     FiltersValueType,
     getTodolistsTC,
-    InitialTodolistStateType
+    TodolistDomainStateType
 } from "./state/todolist_reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {
     addTaskTC,
     deleteTaskTC,
-    InitialTaskStateType, updateTaskTC
+    TaskDomainStateType, updateTaskTC
 } from "./state/task_reducer";
 import {AppRootStateType} from "./store/store";
 import {AddItemForm} from './components/AddItemForm/AddItemForm';
@@ -32,8 +32,8 @@ import {TaskAPIStatuses} from "./API/todolist-api";
 function App() {
     const dispatch = useDispatch();
 
-    const todolists = useSelector<AppRootStateType, InitialTodolistStateType[]>(state => state.todolists);
-    const tasks = useSelector<AppRootStateType, InitialTaskStateType>(state => state.tasks);
+    const todolists = useSelector<AppRootStateType, TodolistDomainStateType[]>(state => state.todolists);
+    const tasks = useSelector<AppRootStateType, TaskDomainStateType>(state => state.tasks);
 
     useEffect(() => {
         dispatch(getTodolistsTC());
