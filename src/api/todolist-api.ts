@@ -1,57 +1,54 @@
 import axios, {AxiosResponse} from "axios";
+import {RequestStatusType} from "../app/app-reducer";
 
 //Types
-export type ResponseAPIType<T = {}> = {
+export type ResponseType<T = {}> = {
     resultCode: number
     fieldsErrors: string[]
     messages: string[]
     data: T
 }
-export type TodolistAPIType = {
+export type TodolistType = {
     id: string
     title: string
     addedDate: string
     order: number
 }
-export type TaskAPIType = {
+export type TaskType = {
     description: string
     title: string
-    status: TaskAPIStatuses
-    priority: TaskAPIPriorities
+    status: TasksStatuses
+    priority: TasksPriorities
     startDate: string
     deadline: string
     id: string
     todoListId: string
     order: number
     addedDate: string
+    entityStatus: RequestStatusType
 }
-export type UpdateTaskModelAPIType = {
+export type UpdateTasksModelType = {
     title: string
     description: string
-    status: TaskAPIStatuses
-    priority: TaskAPIPriorities
-    startDate: string //2023-03-19T07:22Z
+    status: TasksStatuses
+    priority: TasksPriorities
+    startDate: string
     deadline: string
 }
-export type GetTasksAPIResponseType = {
-    items: TaskAPIType[]
+export type GetTasksType = {
+    items: TaskType[]
     totalCount: number
     error: string
 }
-export type CreateTaskAPIResponseType = {
-    resultCode: number
-    messages: string[]
-    data: {
-        item: TaskAPIType
-    }
-}
-export enum TaskAPIStatuses {
+
+export enum TasksStatuses {
     New = 0,
     InProgress = 1,
     Completed = 2,
     Draft = 3
 }
-export enum TaskAPIPriorities {
+
+export enum TasksPriorities {
     Low = 0,
     Middle = 1,
     Hi = 2,
@@ -70,36 +67,35 @@ const instance = axios.create({
 export const todolistAPI = {
     //Todolists
     getTodolists() {
-        return instance.get<TodolistAPIType[]>(`todo-lists`)
+        return instance.get<TodolistType[]>(`todo-lists`)
     },
-
     createTodolist(title: string) {
-        return instance.post<ResponseAPIType<{ item: TodolistAPIType }>, AxiosResponse<ResponseAPIType<{ item: TodolistAPIType }>>, { title: string }>
+        return instance.post<ResponseType<{ item: TodolistType }>, AxiosResponse<ResponseType<{ item: TodolistType }>>, { title: string }>
         ('todo-lists', {title: title})
     },
-
     deleteTodolist(todolistId: string) {
-        return instance.delete<ResponseAPIType>(`todo-lists/${todolistId}`)
+        return instance.delete<ResponseType>
+        (`todo-lists/${todolistId}`)
     },
-
     updateTodolist(todolistId: string, newTitle: string) {
-        return instance.put<ResponseAPIType, AxiosResponse<ResponseAPIType>, { title: string }>
+        return instance.put<ResponseType, AxiosResponse<ResponseType>, { title: string }>
         (`todo-lists/${todolistId}`, {title: newTitle})
     },
 
     //Tasks
     getTasks(todolistId: string) {
-        return instance.get<GetTasksAPIResponseType>(`/todo-lists/${todolistId}/tasks`)
+        return instance.get<GetTasksType>
+        (`/todo-lists/${todolistId}/tasks`)
     },
     createTask(todolistId: string, title: string) {
-        return instance.post<CreateTaskAPIResponseType, AxiosResponse<CreateTaskAPIResponseType>, { title: string }>
+        return instance.post<ResponseType<{ item: TaskType }>, AxiosResponse<ResponseType<{ item: TaskType }>>, { title: string }>
         (`/todo-lists/${todolistId}/tasks`, {title: title})
     },
     deleteTask(todolistId: string, taskId: string) {
-        return instance.delete<ResponseAPIType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
+        return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
     },
-    updateTask(todolistId: string, taskId: string, task: UpdateTaskModelAPIType) {
-        return instance.put<UpdateTaskModelAPIType, AxiosResponse<ResponseAPIType<{ item: TaskAPIType }>>>
+    updateTask(todolistId: string, taskId: string, task: UpdateTasksModelType) {
+        return instance.put<UpdateTasksModelType, AxiosResponse<ResponseType<{ item: TaskType }>>>
         (`/todo-lists/${todolistId}/tasks/${taskId}`, task)
     }
 }

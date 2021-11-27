@@ -1,79 +1,64 @@
 import React from "react";
 import {Provider} from "react-redux";
-import {AppRootStateType} from "../store/store";
-import {combineReducers, createStore} from "redux";
-import {todolistReducer} from "../state/todolist_reducer";
-import {taskReducer} from "../state/task_reducer";
+import {AppRootStateType} from "../app/store";
+import {applyMiddleware, combineReducers, createStore} from "redux";
+import {todolistReducer} from "../features/TodolistsList/todolist_reducer";
+import {taskReducer} from "../features/TodolistsList/task_reducer";
 import {v1} from "uuid";
-import {TaskAPIStatuses} from "../API/todolist-api";
+import {TasksStatuses} from "../api/todolist-api";
+import {appReducer} from "../app/app-reducer";
+import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
     tasks: taskReducer,
-    todolists: todolistReducer
+    todolists: todolistReducer,
+    app: appReducer,
 })
 
-const initialGlobalState = {
+const initialGlobalState: AppRootStateType = {
     todolists: [
-        {id: 'todolistId1', title: 'What to buy', order: 1, filter: 'all', addedDate: ''},
-        {id: 'todolistId2', title: 'What to Play', order: 0, filter: 'all', addedDate: ''},
+        {
+            id: 'todolistId1', title: 'What to buy', order: 1,
+            filter: 'all', addedDate: '', entityStatus: 'idle'
+        },
+        {
+            id: 'todolistId2', title: 'What to Play', order: 0,
+            filter: 'all', addedDate: '', entityStatus: 'loading'
+        },
     ],
     tasks: {
-        ["todolistId1"]: [
+        "todolistId1": [
             {
-                id: v1(),
-                title: "React Book",
-                status: TaskAPIStatuses.New,
-                order: 0,
-                addedDate: '',
-                deadline: '',
-                startDate: '',
-                description: '',
-                priority: 2,
-                todoListId: 'todolistId1',
+                id: v1(), title: "React Book", status: TasksStatuses.Completed, order: 0, addedDate: '',
+                deadline: '', startDate: '', description: '', priority: 2, todoListId: 'todolistId1',
+                entityStatus: 'idle'
             },
             {
-                id: v1(),
-                title: "Book",
-                status: TaskAPIStatuses.New,
-                order: 0,
-                addedDate: '',
-                deadline: '',
-                startDate: '',
-                description: '',
-                priority: 2,
-                todoListId: 'todolistId1',
+                id: v1(), title: "Book", status: TasksStatuses.New, order: 0, addedDate: '',
+                deadline: '', startDate: '', description: '', priority: 2, todoListId: 'todolistId1',
+                entityStatus: 'idle'
             }
         ],
-        ["todolistId2"]: [
+        "todolistId2": [
             {
-                id: v1(),
-                title: "Milk",
-                status: TaskAPIStatuses.New,
-                order: 0,
-                addedDate: '',
-                deadline: '',
-                startDate: '',
-                description: 'heshe',
-                priority: 2,
-                todoListId: 'todolistId2',
+                id: v1(), title: "Milk", status: TasksStatuses.Completed,
+                order: 0, addedDate: '', deadline: '', startDate: '', description: '',
+                priority: 2, todoListId: 'todolistId2', entityStatus: 'idle'
             },
             {
-                id: v1(),
-                title: "Eat",
-                status: TaskAPIStatuses.New,
-                order: 0,
-                addedDate: '',
-                deadline: '',
-                startDate: '',
-                description: '',
-                priority: 2,
-                todoListId: 'todolistId2',
+                id: v1(), title: "Eat", status: TasksStatuses.New, order: 0, addedDate: '', deadline: '',
+                startDate: '', description: '', priority: 2, todoListId: 'todolistId2',
+                entityStatus: 'idle'
             }
         ]
+    },
+    app: {
+        status: 'idle',
+        error: null,
     }
 };
 
-export const storyBookStore = createStore(rootReducer, initialGlobalState as AppRootStateType);
+export const storyBookStore = createStore(rootReducer, initialGlobalState, applyMiddleware(thunk));
 
 //Создаем HOC, storyFn это компонента которую будет принимать наш HOC
 export const ReduxStoreProviderDecorator = (storyFn: () => React.ReactNode) => {

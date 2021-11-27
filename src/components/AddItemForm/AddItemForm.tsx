@@ -6,6 +6,7 @@ import {AddCircle} from "@mui/icons-material";
 type AddItemFormPropsType = {
     title?: string
     callback: (title: string) => void
+    disabled?: boolean
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
@@ -48,8 +49,11 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
                            value={inputValue}
                            onChange={inputChangeHandler}
                            onKeyPress={onKeyPressAdd}
+                           disabled={props.disabled}
                 />
-                <IconButton onClick={addButton} color={'primary'} size={"small"}>
+                <IconButton onClick={addButton} color={'primary'}
+                            size={"small"}
+                            disabled={props.disabled}>
                     <AddCircle/>
                 </IconButton>
             </div>

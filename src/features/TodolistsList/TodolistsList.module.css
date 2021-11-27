@@ -1,0 +1,18 @@
+.todolistWrapper {
+    padding: 10px;
+    margin: 15px 0;
+}
+
+.addItemFormWrapper {
+    margin: 40px 0;
+}
+
+@media (max-width: 1072px) {
+    .listWrapper {
+        justify-content: center;
+    }
+
+    .addItemFormWrapper {
+        justify-content: center;
+    }
+}

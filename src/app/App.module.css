@@ -1,0 +1,16 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.mainApp {
+    font-family: Bahnschrift, sans-serif;
+}
+
+.todolistsContainer {
+    max-width: 100%;
+}
+
+
+

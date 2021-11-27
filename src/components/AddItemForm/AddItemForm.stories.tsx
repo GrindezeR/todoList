@@ -1,4 +1,4 @@
-import AddItemForm from "../components/AddItemForm/AddItemForm";
+import AddItemForm from "./AddItemForm";
 import {ComponentStory, ComponentMeta} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
 
@@ -18,5 +18,13 @@ export const AddItemFormStory = Template.bind({});
 
 AddItemFormStory.args = {
     title: 'Add List',
+    callback: action('Button inside form clicked'),
+};
+
+export const AddItemFormDisableStory = Template.bind({});
+
+AddItemFormDisableStory.args = {
+    title: 'Add List',
+    disabled: true,
     callback: action('Button inside form clicked'),
 };

@@ -5,17 +5,20 @@ import s from './EditableSpan.module.css';
 type EditableSpanPropsType = {
     title: string
     callback: (title: string) => void
+    disabled?: boolean
 }
 
 export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
-    const {title, callback} = props
+    const {title, callback, disabled} = props
 
     const [editMode, setEditMode] = useState(false);
     const [inputValue, setInputValue] = useState(title);
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value);
     const enableEditMode = () => {
-        setEditMode(true);
+        if (disabled === false) {
+            setEditMode(true);
+        }
     }
     const disableEditMode = () => {
         const value = inputValue.trim();

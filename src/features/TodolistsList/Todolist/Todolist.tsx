@@ -1,35 +1,32 @@
 import React, {useCallback, useEffect} from "react";
 import s from './Todolist.module.css';
-import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {Task} from "../Task/Task";
-import IconButton from "@mui/material/IconButton";
-import {DeleteForever} from "@mui/icons-material";
-import Button from "@mui/material/Button";
-import {TaskAPIStatuses, TaskAPIType} from "../../API/todolist-api";
-import {FiltersValueType} from "../../state/todolist_reducer";
+import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
+import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
+import {Task} from "./Task/Task";
+import {TasksStatuses, TaskType} from "../../../api/todolist-api";
+import {FiltersValueType, TodolistDomainType} from "../todolist_reducer";
 import {useDispatch} from "react-redux";
-import {getTasksTC} from "../../state/task_reducer";
+import {getTasksTC} from "../task_reducer";
+import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
+import {DeleteForever} from "@mui/icons-material";
 
 type TodolistPropsType = {
-    tasks: TaskAPIType[]
-    title: string
-    filter: FiltersValueType
-    todolistId: string
+    todolist: TodolistDomainType
+    tasks: TaskType[]
     deleteTodolist: (todolistId: string) => void
     changeTodolistFilter: (todolistId: string, filter: FiltersValueType) => void
     changeTodolistTitle: (todolistId: string, title: string) => void
-
     addTask: (todolistId: string, title: string) => void
     changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
-    changeTaskStatus: (todolistId: string, taskId: string, status: TaskAPIStatuses) => void
+    changeTaskStatus: (todolistId: string, taskId: string, status: TasksStatuses) => void
     deleteTask: (todolistId: string, taskId: string) => void
+    demo?: boolean
 }
 
-export const Todolist = React.memo((props: TodolistPropsType) => {
+export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType) => {
     const {
-        tasks, title, filter,
-        todolistId,
+        tasks, todolist,
         deleteTask, changeTaskStatus, addTask, changeTaskTitle,
         changeTodolistFilter, deleteTodolist, changeTodolistTitle,
     } = props
@@ -37,22 +34,28 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getTasksTC(todolistId));
-    }, [dispatch, todolistId])
+        if (demo) {
+            return;
+        }
+        dispatch(getTasksTC(todolist.id));
+
+    }, [dispatch, todolist.id, demo])
+
+    const disableWhileLoading = todolist.entityStatus === 'loading'
 
     let filteredTasks = tasks;
-    if (filter === 'active') {
-        filteredTasks = tasks.filter(t => t.status === TaskAPIStatuses.New);
+    if (todolist.filter === 'active') {
+        filteredTasks = tasks.filter(t => t.status === TasksStatuses.New);
     }
-    if (filter === "completed") {
-        filteredTasks = tasks.filter(t => t.status === TaskAPIStatuses.Completed);
+    if (todolist.filter === "completed") {
+        filteredTasks = tasks.filter(t => t.status === TasksStatuses.Completed);
     }
 
     const tasksList = filteredTasks.map(t => {
         return (
             <Task key={t.id}
                   task={t}
-                  todolistId={todolistId}
+                  todolistId={todolist.id}
                   changeTaskTitle={changeTaskTitle}
                   changeTaskStatus={changeTaskStatus}
                   deleteTask={deleteTask}/>
@@ -61,44 +64,48 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
 
     //Callbacks
     const allFilterHandler = useCallback(() => {
-        changeTodolistFilter(todolistId, 'all')
-    }, [changeTodolistFilter, todolistId]);
+        changeTodolistFilter(todolist.id, 'all')
+    }, [changeTodolistFilter, todolist.id]);
 
     const activeFilterHandler = useCallback(() => {
-        changeTodolistFilter(todolistId, 'active')
-    }, [changeTodolistFilter, todolistId]);
+        changeTodolistFilter(todolist.id, 'active')
+    }, [changeTodolistFilter, todolist.id]);
 
     const completeFilterHandler = useCallback(() => {
-        changeTodolistFilter(todolistId, 'completed')
-    }, [changeTodolistFilter, todolistId]);
+        changeTodolistFilter(todolist.id, 'completed')
+    }, [changeTodolistFilter, todolist.id]);
 
     const deleteTodolistHandler = useCallback(() => {
-        deleteTodolist(todolistId)
-    }, [deleteTodolist, todolistId]);
+        deleteTodolist(todolist.id)
+    }, [deleteTodolist, todolist.id]);
 
     const changeTodolistTitleCallback = useCallback((title: string) => {
-        changeTodolistTitle(todolistId, title)
-    }, [changeTodolistTitle, todolistId]);
+        changeTodolistTitle(todolist.id, title)
+    }, [changeTodolistTitle, todolist.id]);
 
     const addTaskCallback = useCallback((title: string) => {
-        addTask(todolistId, title)
-    }, [addTask, todolistId]);
+        addTask(todolist.id, title)
+    }, [addTask, todolist.id]);
 
 
     //Styles
-    const allStyle = filter === 'all' ? 'contained' : 'text';
-    const activeStyle = filter === 'active' ? 'contained' : 'text';
-    const completeStyle = filter === 'completed' ? 'contained' : 'text';
+    const allStyle = todolist.filter === 'all' ? 'contained' : 'text';
+    const activeStyle = todolist.filter === 'active' ? 'contained' : 'text';
+    const completeStyle = todolist.filter === 'completed' ? 'contained' : 'text';
+    const colorDeleteBtn = disableWhileLoading ? 'inherit' : 'error';
 
     return (
-        <div key={todolistId} className={s.wrapper}>
+        <div key={todolist.id} className={s.wrapper}>
             <h3 className={s.title}>
-                <EditableSpan title={title} callback={changeTodolistTitleCallback}/>
-                <IconButton onClick={deleteTodolistHandler}>
-                    <DeleteForever color={'error'}/>
+                <EditableSpan title={todolist.title}
+                              callback={changeTodolistTitleCallback}
+                              disabled={disableWhileLoading}/>
+                <IconButton onClick={deleteTodolistHandler}
+                            disabled={disableWhileLoading}>
+                    <DeleteForever color={colorDeleteBtn}/>
                 </IconButton>
             </h3>
-            <AddItemForm callback={addTaskCallback}/>
+            <AddItemForm callback={addTaskCallback} disabled={disableWhileLoading}/>
             <div className={s.tasksWrapper}>{tasksList}</div>
             <div className={s.btnWrapper}>
                 <Button title={'All'}

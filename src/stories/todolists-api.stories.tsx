@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
-import {TaskAPIStatuses, todolistAPI} from "../API/todolist-api";
+import {TasksStatuses, todolistAPI} from "../api/todolist-api";
 
 export default {
-    title: 'API'
+    title: 'api'
 }
 
 //Todolists
@@ -85,7 +85,7 @@ export const UpdateTask = () => {
             description: 'my task Postman',
             priority: 0,
             startDate: '2022-03-19T07:22Z',
-            status: TaskAPIStatuses.Completed
+            status: TasksStatuses.Completed
         })
             .then(res => setState(res.data))
     }, [])
