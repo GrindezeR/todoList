@@ -5,8 +5,6 @@ import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import {Task} from "./Task/Task";
 import {TasksStatuses, TaskType} from "../../../api/todolist-api";
 import {FiltersValueType, TodolistDomainType} from "../todolist_reducer";
-import {useDispatch} from "react-redux";
-import {getTasksTC} from "../task_reducer";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import {DeleteForever} from "@mui/icons-material";
@@ -31,15 +29,12 @@ export const Todolist = React.memo(({demo = false, ...props}: TodolistPropsType)
         changeTodolistFilter, deleteTodolist, changeTodolistTitle,
     } = props
 
-    const dispatch = useDispatch();
-
     useEffect(() => {
         if (demo) {
             return;
         }
-        dispatch(getTasksTC(todolist.id));
 
-    }, [dispatch, todolist.id, demo])
+    }, [demo])
 
     const disableWhileLoading = todolist.entityStatus === 'loading'
 

@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../app/store";
+import {AppRootStateType, useAppSelector} from "../../app/store";
 import {
     addTodolistTC,
     changeTodolistFilterAC,
@@ -17,22 +17,23 @@ import Paper from "@mui/material/Paper";
 import s from "./TodolistsList.module.css";
 import {Todolist} from "./Todolist/Todolist";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
+import {Navigate} from "react-router-dom";
 
 type PropsType = {
     demo?: boolean
 }
 
 export const TodolistsList = ({demo = false}: PropsType) => {
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn);
     const dispatch = useDispatch();
     const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists);
     const tasks = useSelector<AppRootStateType, TaskDomainType>(state => state.tasks);
-
     useEffect(() => {
-        if (demo) {
+        if (demo || !isLoggedIn) {
             return;
         }
         dispatch(getTodolistsTC());
-    }, [dispatch,demo])
+    }, [dispatch, demo, isLoggedIn])
 
     //Tasks Functions
     const deleteTask = useCallback((todolistId: string, taskId: string) => {
@@ -62,6 +63,10 @@ export const TodolistsList = ({demo = false}: PropsType) => {
         dispatch(deleteTodolistTC(todolistId));
     }, [dispatch]);
 
+
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
 
     const todolistList = todolists.map(tl => {
         const tasksForTodolist = tasks[tl.id];

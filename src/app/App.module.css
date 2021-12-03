@@ -12,5 +12,11 @@
     max-width: 100%;
 }
 
+.loadingBar {
+    position: absolute;
+    width: 100%;
+    top: 64px;
+}
+
 
 

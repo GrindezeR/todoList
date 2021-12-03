@@ -21,8 +21,10 @@ export const ErrorSnackBar = () => {
         dispatch(setAppErrorAC(null));
     };
 
+
     return (
-        <Snackbar open={!!error}
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                  open={!!error}
                   autoHideDuration={2000}
                   onClose={onCloseHandler}>
 
