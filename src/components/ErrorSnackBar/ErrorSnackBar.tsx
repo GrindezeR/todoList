@@ -21,7 +21,6 @@ export const ErrorSnackBar = () => {
         dispatch(setAppErrorAC(null));
     };
 
-
     return (
         <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                   open={!!error}
