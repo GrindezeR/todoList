@@ -50,7 +50,7 @@ function App({demo = false}: PropsType) {
     return (
         <div className={s.mainApp}>
 
-                <ErrorSnackBar/>
+            <ErrorSnackBar/>
 
             <AppBar position='relative'>
                 <Toolbar>
@@ -78,9 +78,11 @@ function App({demo = false}: PropsType) {
                     <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
                     <Route path={'login'} element={<Login/>}/>
                     <Route path={'*'} element={
-                        <h1 style={{textAlign: 'center', marginTop: '10%', color: 'red'}}>
-                            404: Page NOT FOUND
-                        </h1>
+                        <div style={{margin:'10% auto'}}>
+                            <h1 style={{textAlign: 'center', marginTop: '10%', color: 'red'}}>
+                                404: Page NOT FOUND
+                            </h1>
+                        </div>
                     }/>
                 </Routes>
             </Container>

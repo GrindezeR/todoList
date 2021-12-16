@@ -28,6 +28,7 @@ export const TodolistsList = ({demo = false}: PropsType) => {
     const dispatch = useDispatch();
     const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists);
     const tasks = useSelector<AppRootStateType, TaskDomainType>(state => state.tasks);
+
     useEffect(() => {
         if (demo || !isLoggedIn) {
             return;
