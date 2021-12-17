@@ -75,9 +75,9 @@ function App({demo = false}: PropsType) {
             </AppBar>
             <Container className={s.todolistsContainer} fixed>
                 <Routes>
-                    <Route path={'/todolist'} element={<TodolistsList demo={demo}/>}/>
+                    <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
                     <Route path={'login'} element={<Login/>}/>
-                    <Route path={'*'} element={
+                    <Route path={'/*'} element={
                         <div style={{margin: '10% auto'}}>
                             <h1 style={{textAlign: 'center', marginTop: '10%', color: 'red'}}>
                                 404: Page NOT FOUND
