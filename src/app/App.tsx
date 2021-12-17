@@ -13,7 +13,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import {initializeAppTC, RequestStatusType} from "./app-reducer";
 import {useAppSelector} from "./store";
 import {ErrorSnackBar} from "../components/ErrorSnackBar/ErrorSnackBar";
-import {Route, Routes} from 'react-router-dom';
+import {Route, Routes, Navigate} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
 import {useDispatch} from "react-redux";
 import {logoutTC} from "../features/Login/auth-reducer";
@@ -75,10 +75,10 @@ function App({demo = false}: PropsType) {
             </AppBar>
             <Container className={s.todolistsContainer} fixed>
                 <Routes>
-                    <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
+                    <Route path={'/todolist'} element={<TodolistsList demo={demo}/>}/>
                     <Route path={'login'} element={<Login/>}/>
                     <Route path={'*'} element={
-                        <div style={{margin:'10% auto'}}>
+                        <div style={{margin: '10% auto'}}>
                             <h1 style={{textAlign: 'center', marginTop: '10%', color: 'red'}}>
                                 404: Page NOT FOUND
                             </h1>
