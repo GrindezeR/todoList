@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType, useAppSelector} from "../../app/store";
+import {AppRootStateType, useAppSelector} from "../../state/store";
 import {
     addTodolistTC,
     changeTodolistFilterAC,
@@ -55,7 +55,7 @@ export const TodolistsList = ({demo = false}: PropsType) => {
         dispatch(changeTodolistTitleTC(todolistId, title));
     }, [dispatch]);
     const changeTodolistFilter = useCallback((todolistId: string, filterValue: FiltersValueType) => {
-        dispatch(changeTodolistFilterAC(todolistId, filterValue));
+        dispatch(changeTodolistFilterAC({todolistId, filter: filterValue}));
     }, [dispatch]);
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistTC(title));

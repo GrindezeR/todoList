@@ -10,7 +10,7 @@ import s from './Login.module.css';
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
 import {loginTC} from "./auth-reducer";
-import {useAppSelector} from "../../app/store";
+import {useAppSelector} from "../../state/store";
 import {Navigate} from 'react-router-dom';
 
 type FormikErrorType = {

@@ -1,53 +1,56 @@
 import {Dispatch} from 'redux'
-import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from '../../app/app-reducer'
+import {setAppStatusAC} from '../../app/app-reducer'
 import {authAPI, LoginParamsType} from "../../api/todolist-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {AxiosError} from "axios";
-import {clearTodolistListDataAC, ClearTodolistListDataActionType} from "../TodolistsList/todolist_reducer";
+import axios from "axios";
+import {clearTodolistListDataAC} from "../TodolistsList/todolist_reducer";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
     isLoggedIn: false
 }
-type InitialStateType = typeof initialState
 
-export const authReducer = (state: InitialStateType = initialState, action: AuthActionsType): InitialStateType => {
-    switch (action.type) {
-        case 'AUTH/SET-IS-LOGGED-IN':
-            return {...state, isLoggedIn: action.value}
-        default:
-            return state
+const slice = createSlice({
+    name: 'auth',
+    initialState: initialState,
+    reducers: {
+        setIsLoggedInAC(state, action: PayloadAction<{ value: boolean }>) {
+            state.isLoggedIn = action.payload.value;
+        }
     }
-}
+})
 
 
+export const authReducer = slice.reducer;
 // Action Creators
-export const setIsLoggedInAC = (value: boolean) => ({type: 'AUTH/SET-IS-LOGGED-IN', value} as const)
+export const {setIsLoggedInAC} = slice.actions;
 
 // Thunks
-export const loginTC = (data: LoginParamsType) => {
-    return (dispatch: Dispatch<AuthActionsType>) => {
-        dispatch(setAppStatusAC('loading'));
-        authAPI.login(data)
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    dispatch(setIsLoggedInAC(true));
-                    dispatch(setAppStatusAC('succeeded'));
-                } else {
-                    handleServerAppError(res.data, dispatch);
-                }
-            })
-            .catch((err: AxiosError) => handleServerNetworkError(err.message, dispatch));
+export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC({status: 'loading'}));
+    try {
+        const response = await authAPI.login(data);
+        if (response.data.resultCode === 0) {
+            dispatch(setIsLoggedInAC({value: true}));
+            dispatch(setAppStatusAC({status: 'succeeded'}));
+        } else {
+            handleServerAppError(response.data, dispatch);
+        }
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            handleServerNetworkError(error.message, dispatch);
+        }
     }
 }
 
-export const logoutTC = () => (dispatch: Dispatch<AuthActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
+export const logoutTC = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC({status: 'loading'}))
     authAPI.logout()
         .then(res => {
             if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC(false));
+                dispatch(setIsLoggedInAC({value: false}));
                 dispatch(clearTodolistListDataAC());
-                dispatch(setAppStatusAC('succeeded'));
+                dispatch(setAppStatusAC({status: 'succeeded'}));
             } else {
                 handleServerAppError(res.data, dispatch)
             }
@@ -56,9 +59,3 @@ export const logoutTC = () => (dispatch: Dispatch<AuthActionsType>) => {
             handleServerNetworkError(error, dispatch)
         })
 }
-
-
-// Types
-export type AuthActionsType = ReturnType<typeof setIsLoggedInAC>
-    | SetAppStatusActionType
-    | SetAppErrorActionType | ClearTodolistListDataActionType

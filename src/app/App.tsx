@@ -11,7 +11,7 @@ import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import CircularProgress from "@mui/material/CircularProgress";
 import LinearProgress from "@mui/material/LinearProgress";
 import {initializeAppTC, RequestStatusType} from "./app-reducer";
-import {useAppSelector} from "./store";
+import {useAppSelector} from "../state/store";
 import {ErrorSnackBar} from "../components/ErrorSnackBar/ErrorSnackBar";
 import {Route, Routes} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
