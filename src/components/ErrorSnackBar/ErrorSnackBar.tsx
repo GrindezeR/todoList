@@ -14,7 +14,7 @@ export const ErrorSnackBar = () => {
     const dispatch = useDispatch();
     const error = useAppSelector<string | null>(state => state.app.error);
 
-    const onCloseHandler = (event?: React.SyntheticEvent, reason?: string) => {
+    const onCloseHandler = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
@@ -25,7 +25,8 @@ export const ErrorSnackBar = () => {
         <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                   open={!!error}
                   autoHideDuration={2000}
-                  onClose={onCloseHandler}>
+                  onClose={onCloseHandler}
+        >
 
             <Alert onClose={onCloseHandler} severity="error" sx={{width: '100%'}}>
                 {error}

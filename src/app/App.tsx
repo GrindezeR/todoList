@@ -13,7 +13,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import {initializeAppTC, RequestStatusType} from "./app-reducer";
 import {useAppSelector} from "./store";
 import {ErrorSnackBar} from "../components/ErrorSnackBar/ErrorSnackBar";
-import {Route, Routes, Navigate} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
 import {useDispatch} from "react-redux";
 import {logoutTC} from "../features/Login/auth-reducer";

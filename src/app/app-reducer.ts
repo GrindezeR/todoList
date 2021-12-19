@@ -41,7 +41,7 @@ export const initializeAppTC = () => {
                 if (res.data.resultCode === 0) {
                     dispatch(setIsLoggedInAC(true));
                 } else {
-                    handleServerAppError(res.data, dispatch);
+                    // handleServerAppError(res.data, dispatch); //Появляется даже кода не залогинен на странице логина
                 }
                 dispatch(setIsInitializedAC());
             })

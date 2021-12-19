@@ -88,6 +88,11 @@ export const Login = () => {
                                 Login
                             </Button>
                         </FormGroup>
+                        <div className={s.freeAccInfo}>
+                            <span>Free account data:</span>
+                            <span>Email: free@samuraijs.com</span>
+                            <span>Password: free</span>
+                        </div>
                     </form>
                 </FormControl>
             </Grid>
