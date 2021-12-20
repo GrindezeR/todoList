@@ -1,4 +1,9 @@
-import {addTodolistAC, deleteTodolistAC, setTodolistsAC, todolistReducer} from "../features/TodolistsList/todolist_reducer";
+import {
+    addTodolistAC,
+    deleteTodolistAC,
+    setTodolistsAC,
+    todolistReducer
+} from "../features/TodolistsList/todolist_reducer";
 import {TaskDomainType, taskReducer} from "../features/TodolistsList/task_reducer";
 import {TodolistDomainType} from "../features/TodolistsList/todolist_reducer";
 import {TasksStatuses} from "../api/todolist-api";
@@ -9,7 +14,7 @@ test('ids should be equals', () => {
     const startTodolistsState: TodolistDomainType[] = [];
     const newTodolist = {id: "todolistId3", title: 'new todolist', order: 1, addedDate: ''}
 
-    const action = addTodolistAC(newTodolist);
+    const action = addTodolistAC({todolist: newTodolist});
 
     const endTasksState = taskReducer(startTasksState, action)
     const endTodolistsState = todolistReducer(startTodolistsState, action)
@@ -18,8 +23,8 @@ test('ids should be equals', () => {
     const idFromTasks = keys[0];
     const idFromTodolists = endTodolistsState[0].id;
 
-    expect(idFromTasks).toBe(action.todolist.id);
-    expect(idFromTodolists).toBe(action.todolist.id);
+    expect(idFromTasks).toBe(action.payload.todolist.id);
+    expect(idFromTodolists).toBe(action.payload.todolist.id);
 });
 
 test('property with todolistId should be deleted', () => {
@@ -36,7 +41,7 @@ test('property with todolistId should be deleted', () => {
                 description: '',
                 priority: 2,
                 todoListId: 'todolistId1',
-                entityStatus:'idle',
+                entityStatus: 'idle',
             },
             {
                 id: "2",
@@ -49,7 +54,7 @@ test('property with todolistId should be deleted', () => {
                 description: '',
                 priority: 2,
                 todoListId: 'todolistId1',
-                entityStatus:'idle',
+                entityStatus: 'idle',
             },
             {
                 id: "3",
@@ -62,7 +67,7 @@ test('property with todolistId should be deleted', () => {
                 description: '',
                 priority: 2,
                 todoListId: 'todolistId1',
-                entityStatus:'idle',
+                entityStatus: 'idle',
             }
         ],
         "todolistId2": [
@@ -77,7 +82,7 @@ test('property with todolistId should be deleted', () => {
                 description: '',
                 priority: 2,
                 todoListId: 'todolistId1',
-                entityStatus:'idle',
+                entityStatus: 'idle',
             },
             {
                 id: "2",
@@ -90,7 +95,7 @@ test('property with todolistId should be deleted', () => {
                 description: '',
                 priority: 2,
                 todoListId: 'todolistId1',
-                entityStatus:'idle',
+                entityStatus: 'idle',
             },
             {
                 id: "3", title: "tea",
@@ -102,12 +107,12 @@ test('property with todolistId should be deleted', () => {
                 description: '',
                 priority: 2,
                 todoListId: 'todolistId1',
-                entityStatus:'idle',
+                entityStatus: 'idle',
             }
         ]
     };
 
-    const action = deleteTodolistAC("todolistId2");
+    const action = deleteTodolistAC({todolistId: "todolistId2"});
     const endState = taskReducer(startState, action)
     const keys = Object.keys(endState);
 
@@ -116,10 +121,12 @@ test('property with todolistId should be deleted', () => {
 });
 
 test('empty tasks arrays should be created after set todolists', () => {
-    const action = setTodolistsAC([
-        {id: "1", title: 'What to buy', order: 1, addedDate: ''},
-        {id: "2", title: 'What to Play', order: 0, addedDate: ''},
-    ]);
+    const action = setTodolistsAC({
+        todolists: [
+            {id: "1", title: 'What to buy', order: 1, addedDate: ''},
+            {id: "2", title: 'What to Play', order: 0, addedDate: ''},
+        ]
+    });
     const endState = taskReducer({}, action);
     const keys = Object.keys(endState)
 

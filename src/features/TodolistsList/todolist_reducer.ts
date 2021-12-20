@@ -137,12 +137,3 @@ export type TodolistDomainType = TodolistType & {
     entityStatus: RequestStatusType,
 }
 export type FiltersValueType = 'all' | 'active' | 'completed'
-export type TodolistActionsType = AddTodolistActionType
-    | DeleteTodolistActionType
-    | SetTodolistsActionType
-    | ClearTodolistListDataActionType
-
-export type ClearTodolistListDataActionType = ReturnType<typeof clearTodolistListDataAC>;
-export type AddTodolistActionType = ReturnType<typeof addTodolistAC>;
-export type DeleteTodolistActionType = ReturnType<typeof deleteTodolistAC>;
-export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>;

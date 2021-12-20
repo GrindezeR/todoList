@@ -45,16 +45,6 @@ export const initializeAppTC = () => async (dispatch: Dispatch) => {
             handleServerNetworkError(error.message, dispatch);
         }
     }
-    // authAPI.me()
-    //     .then(res => {
-    //         if (res.data.resultCode === 0) {
-    //             dispatch(setIsLoggedInAC({value: true}));
-    //         } else {
-    //             console.log('Not Authorized');
-    //         }
-    //         dispatch(setIsInitializedAC());
-    //     })
-    //     .catch((err: AxiosError) => handleServerNetworkError(err.message, dispatch));
 }
 
 // Types

@@ -9,6 +9,7 @@ import {TasksStatuses} from "../api/todolist-api";
 import {appReducer} from "../app/app-reducer";
 import thunk from "redux-thunk";
 import {authReducer} from "../features/Login/auth-reducer";
+import {HashRouter} from "react-router-dom";
 
 const rootReducer = combineReducers({
     tasks: taskReducer,
@@ -69,8 +70,10 @@ export const storyBookStore = createStore(rootReducer, initialGlobalState, apply
 //Создаем HOC, storyFn это компонента которую будет принимать наш HOC
 export const ReduxStoreProviderDecorator = (storyFn: () => React.ReactNode) => {
     return (
-        <Provider store={storyBookStore}>
-            {storyFn()}
-        </Provider>
+        <HashRouter>
+            <Provider store={storyBookStore}>
+                {storyFn()}
+            </Provider>
+        </HashRouter>
     );
 }

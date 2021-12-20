@@ -7,7 +7,7 @@ import {TasksStatuses, TaskType} from "../../../api/todolist-api";
 import {FiltersValueType, TodolistDomainType} from "../todolist_reducer";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import {DeleteForever} from "@mui/icons-material";
+import DeleteForever from "@mui/icons-material/DeleteForever";
 
 type TodolistPropsType = {
     todolist: TodolistDomainType
