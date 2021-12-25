@@ -1,11 +1,11 @@
 import App from "../app/App";
 import {ComponentMeta, ComponentStory} from "@storybook/react";
-import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
+import {ReduxRouterDecorator, ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
 
 export default {
     title: 'Todolist/App',
     component: App,
-    decorators: [ReduxStoreProviderDecorator]
+    decorators: [ReduxStoreProviderDecorator, ReduxRouterDecorator]
 } as ComponentMeta<typeof App>;
 
 const Template: ComponentStory<typeof App> = (args) => <App demo={true}/>

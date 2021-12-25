@@ -1,7 +1,7 @@
 import React from "react";
 import {Provider} from "react-redux";
 import {AppRootStateType} from "../state/store";
-import {applyMiddleware, combineReducers, createStore} from "redux";
+import {combineReducers} from "redux";
 import {todolistReducer} from "../features/TodolistsList/todolist_reducer";
 import {taskReducer} from "../features/TodolistsList/task_reducer";
 import {v1} from "uuid";
@@ -10,6 +10,7 @@ import {appReducer} from "../app/app-reducer";
 import thunk from "redux-thunk";
 import {authReducer} from "../features/Login/auth-reducer";
 import {HashRouter} from "react-router-dom";
+import {configureStore} from "@reduxjs/toolkit";
 
 const rootReducer = combineReducers({
     tasks: taskReducer,
@@ -65,15 +66,25 @@ const initialGlobalState: AppRootStateType = {
     }
 };
 
-export const storyBookStore = createStore(rootReducer, initialGlobalState, applyMiddleware(thunk));
+export const storyBookStore = configureStore({
+    reducer: rootReducer,
+    preloadedState: initialGlobalState,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk),
+});
 
 //Создаем HOC, storyFn это компонента которую будет принимать наш HOC
 export const ReduxStoreProviderDecorator = (storyFn: () => React.ReactNode) => {
     return (
-        <HashRouter>
             <Provider store={storyBookStore}>
                 {storyFn()}
             </Provider>
+    );
+}
+
+export const ReduxRouterDecorator = (storyFn: () => React.ReactNode) => {
+    return (
+        <HashRouter>
+            {storyFn()}
         </HashRouter>
     );
 }

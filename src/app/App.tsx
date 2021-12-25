@@ -29,8 +29,10 @@ function App({demo = false}: PropsType) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(initializeAppTC());
-    }, [dispatch])
+        if (!demo) {
+            dispatch(initializeAppTC());
+        }
+    }, [dispatch, demo])
 
 
     const onLogoutClickHandler = () => {

@@ -179,7 +179,7 @@ test('correct task should be deleted from correct array', () => {
 test('correct task should be added to correct array', () => {
     const action = addTaskAC({
         task: {
-            id: '123', title: 'juce', status: TasksStatuses.New, entityStatus: "idle",
+            id: '123', title: 'juice', status: TasksStatuses.New, entityStatus: "idle",
             order: 0, todoListId: 'todolistId2', startDate: '', addedDate: '',
             deadline: '', description: '', priority: 0
         }
@@ -189,7 +189,7 @@ test('correct task should be added to correct array', () => {
     expect(endState["todolistId1"].length).toBe(3);
     expect(endState["todolistId2"].length).toBe(4);
     expect(endState["todolistId2"][0].id).toBeDefined();
-    expect(endState["todolistId2"][0].title).toBe('juce');
+    expect(endState["todolistId2"][0].title).toBe('juice');
     expect(endState["todolistId2"][0].status).toBe(TasksStatuses.New);
 })
 test('status of specified task should be changed', () => {
